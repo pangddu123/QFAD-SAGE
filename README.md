@@ -1,5 +1,7 @@
 # QAFD-RAG
 
+Local Writer–Reader optimization: [native QFAD pipeline with SAGE rewards](experiments/sage_qfad/README.md).
+
 Official code for ICLR 2026 paper: **[Query-Aware Flow Diffusion for Graph-Based RAG with Retrieval Guarantees](https://openreview.net/forum?id=n28wnc2QTc)**
 
 QAFD-RAG uses **query-aware flow diffusion** to retrieve contextually relevant subgraphs from a knowledge graph. Unlike community-based (GraphRAG) or entity-centric (LightRAG) approaches, QAFD-RAG dynamically re-weights edges based on query relevance and propagates flow through the graph to discover multi-hop context with retrieval guarantees.
