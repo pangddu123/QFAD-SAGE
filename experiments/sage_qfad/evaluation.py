@@ -1,6 +1,5 @@
 """Frozen answer generation and evidence-only deducibility judging."""
 import json
-import re
 
 from passage_entity.prompts import make_qa_messages
 from .rewards import task_reward
@@ -27,8 +26,7 @@ class TaskEvaluator:
             if not response['finished']:
                 raise RuntimeError('Answer completion reached its output limit')
             text = response['text'].strip()
-            markers = list(re.finditer(r'(?:^|\n)\s*(?:final\s+)?answer\s*:\s*', text, re.I))
-            prediction = text[markers[-1].end():].strip() if markers else text
+            prediction = text.split('Answer:')[-1].strip() if 'Answer:' in text else text
             verdict = self.judge.responses(messages=[{'role': 'system', 'content': DEDUCIBILITY_PROMPT},
                 {'role': 'user', 'content': json.dumps({'question': query['question'],
                  'reference_answers': query['answers'], 'evidence': retrieval['documents']}, ensure_ascii=False)}],

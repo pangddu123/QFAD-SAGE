@@ -158,7 +158,7 @@ class LoopTests(unittest.TestCase):
         class AnswerPolicy:
             def generate(self, role, messages, **kwargs):
                 calls.append((role, messages))
-                return {'text': 'Answer: PRIVATE_REFERENCE', 'finished': True}, None
+                return {'text': 'Thought: An explanation. Answer: PRIVATE_REFERENCE', 'finished': True}, None
         class Judge:
             def responses(self, messages, **kwargs):
                 calls.append(('judge', messages))
