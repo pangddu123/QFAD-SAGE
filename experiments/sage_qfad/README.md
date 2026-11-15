@@ -1,6 +1,6 @@
 # QFAD 原生记忆与 SAGE 奖励
 
-本目录是 Qwen27B Writer–Reader 交替优化的入口。抽取、构图、事实筛选和流扩散沿用 `src/passage_entity`；奖励对应 [SAGE §4.1、Appendix O.1](https://arxiv.org/html/2605.12061v2)。`experiments/qwen27b_rsi` 保留历史实验实现与结果所需脚本，本入口不调用其中的训练、医学校验或检索策略。
+本目录是 Qwen27B Writer–Reader 交替优化的入口。抽取、构图、事实筛选和流扩散沿用 `src/passage_entity`；奖励对应 [SAGE §4.1、Appendix O.1](https://arxiv.org/html/2605.12061v2)。
 
 ## Memory 与策略
 
@@ -50,10 +50,10 @@ GRPO 的优势为组内回报减均值后除以总体标准差。等回报组不
 
 ## 输入与执行
 
-从工作区根目录设置模块路径：
+从 QFAD-SAGE 仓库根目录设置模块路径。以下命令沿用同级 MedMemoryBench 环境、工作区的评分脚本和已准备的医学数据。
 
 ```bash
-export PYTHONPATH="$PWD/QFAD-RSI/experiments:$PWD/QFAD-RSI/src:$PWD/../baselines/QAFD-RAG/.deps"
+export PYTHONPATH="$PWD/experiments:$PWD/src:$PWD/../../baselines/QAFD-RAG/.deps"
 ```
 
 数据文件包含 `documents` 与 `queries`：
@@ -64,8 +64,8 @@ export PYTHONPATH="$PWD/QFAD-RSI/experiments:$PWD/QFAD-RSI/src:$PWD/../baselines
 仅导出与验证数据，不加载模型或请求 API：
 
 ```bash
-MedMemoryBench/.venv/bin/python -m sage_qfad.prepare_p12 --out results/sage_qfad_native/p12_input.json
-MedMemoryBench/.venv/bin/python -m sage_qfad.run validate --dataset results/sage_qfad_native/p12_input.json
+../MedMemoryBench/.venv/bin/python -m sage_qfad.prepare_p12 --out results/sage_qfad_native/p12_input.json
+../MedMemoryBench/.venv/bin/python -m sage_qfad.run validate --dataset results/sage_qfad_native/p12_input.json
 ```
 
 训练入口为 `python -m sage_qfad.run train --config CONFIG.json`，配置必须包含：
@@ -87,7 +87,7 @@ Worker 运行在 GPU 主机时，只需本目录的 Python 包与模型依赖；
 ## 检查
 
 ```bash
-CUDA_VISIBLE_DEVICES='' MedMemoryBench/.venv/bin/python -m unittest \
+CUDA_VISIBLE_DEVICES='' ../MedMemoryBench/.venv/bin/python -m unittest \
   sage_qfad.test_rewards sage_qfad.test_native sage_qfad.test_loop sage_qfad.test_worker -v
 ```
 

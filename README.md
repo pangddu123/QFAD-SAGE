@@ -1,4 +1,4 @@
-# QAFD-RAG
+# QFAD-SAGE
 
 Local Writer–Reader optimization: [native QFAD pipeline with SAGE rewards](experiments/sage_qfad/README.md).
 
