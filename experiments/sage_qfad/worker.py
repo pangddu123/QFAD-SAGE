@@ -149,6 +149,7 @@ class AdapterWorker:
             with self.model.disable_adapter():
                 reference = [[completion_logps(self.model, a['prompt'], a['tokens']).detach()
                               for a in path] for path in trajectories]
+        self.model.train()
         metrics = []
         for epoch in range(self.epochs):
             self.model.zero_grad(set_to_none=True)
